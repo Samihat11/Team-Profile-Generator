@@ -114,7 +114,6 @@ const addToTeam = async () => {
   if (response.addTeam) {
     addEmployee();
   } else {
-    console.log(team);
     createEmployeeCard(team);
   }
 };
