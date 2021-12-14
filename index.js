@@ -1,34 +1,34 @@
 const inquirer = require('inquirer');
-const Engineer = require('./lib/engineer.js');
-const Manager = require('./lib/manager.js');
-const Intern = require('./lib/intern');
-const {createEmployeeCard} = require('./lib/renderHtml')
+const Engineer = require('./lib/Engineer');
+const Manager = require('./lib/Manager.js');
+const Intern = require('./lib/Intern');
+const { createEmployeeCard } = require('./lib/renderHtml');
 const team = {
   name: '',
   employees: [],
 };
 
 const stringValidator = (input) => {
-  if(!input) {
-    return 'Your input should have atleast one character.'
-  } 
- return true
-}
+  if (!input) {
+    return 'Your input should have atleast one character.';
+  }
+  return true;
+};
 
 const numberValidator = (input) => {
-    if(isNaN(input)) {
-    return 'Your input should be a number.'
+  if (isNaN(input)) {
+    return 'Your input should be a number.';
   }
-  return true
- }
+  return true;
+};
 
- const emailValidator = (input) => {
-  let valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)
-  if(valid) {
-    return true
+const emailValidator = (input) => {
+  let valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+  if (valid) {
+    return true;
   }
-  return 'Please enter a valid email.'
- }
+  return 'Please enter a valid email.';
+};
 
 const questions = [
   {
@@ -36,31 +36,31 @@ const questions = [
     name: 'teamName',
     message: 'What is the name of your team?',
     default: 'My team',
-    validate: stringValidator
+    validate: stringValidator,
   },
   {
     type: 'input',
     name: 'name',
     message: 'Who is the manager of your team',
-    validate: stringValidator
+    validate: stringValidator,
   },
   {
     type: 'number',
     name: 'id',
     message: (answers) => ` What is ${answers.name}'s employee ID`,
-    validate: numberValidator
+    validate: numberValidator,
   },
   {
     type: 'input',
     name: 'email',
     message: (answers) => ` What is ${answers.name}'s email`,
-    validate: emailValidator
+    validate: emailValidator,
   },
   {
     type: 'input',
     name: 'officeNum',
     message: (answers) => ` What is ${answers.name}'s office number`,
-    validate: stringValidator
+    validate: stringValidator,
   },
 ];
 const questionsTwo = [
@@ -75,33 +75,33 @@ const questionsTwo = [
     name: 'name',
     message: (answers) =>
       `What is the name of the ${answers.teamMember} you would like to add?`,
-    validate: stringValidator
+    validate: stringValidator,
   },
   {
     type: 'number',
     name: 'id',
     message: (answers) => ` What is ${answers.name}'s employee ID?`,
-    validate: numberValidator
+    validate: numberValidator,
   },
   {
     type: 'input',
     name: 'email',
     message: (answers) => ` What is ${answers.name}'s email?`,
-    validate: emailValidator
+    validate: emailValidator,
   },
   {
     type: 'input',
     name: 'github',
     message: (answers) => ` What is ${answers.name}'s github?`,
     when: (answers) => answers.teamMember === 'Engineer',
-    validate: stringValidator
+    validate: stringValidator,
   },
   {
     type: 'input',
     name: 'school',
     message: (answers) => ` What is ${answers.name}'s school's name?`,
     when: (answers) => answers.teamMember === 'Intern',
-    validate: stringValidator
+    validate: stringValidator,
   },
 ];
 
@@ -114,7 +114,8 @@ const addToTeam = async () => {
   if (response.addTeam) {
     addEmployee();
   } else {
-    createEmployeeCard(team)
+    console.log(team);
+    createEmployeeCard(team);
   }
 };
 
@@ -144,7 +145,7 @@ async function init() {
     const answers = await inquirer.prompt(questions);
     const { teamName, name, id, email, officeNum } = answers;
     team.name = teamName;
-    team.employees.push(new Manager(id, name, email, officeNum));
+    team.employees.push(new Manager(name, id, email, officeNum));
     addToTeam();
   } catch (err) {
     console.log(err);
