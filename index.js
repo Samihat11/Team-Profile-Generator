@@ -153,6 +153,3 @@ async function init() {
 
 init();
 
-/* 
- Write test
-*/
